@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["✈️",  "🚃", "🚅", "🚁", "🚕", "🚗", "🚙", "🚌", "🚎", "🏎", "🚢", "🚓", "🚑", "🚒", "🚐", "🛻", "🚚", "🦽", "🦼", "🛴", "🚲", "🛵", "🏍"]
-    @State var emojiCount = 16
+    //@State var emojis = ["✈️",  "🚃", "🚅", "🚁", "🚕", "🚗", "🚙", "🚌", "🚎", "🏎", "🚢", "🚓", "🚑", "🚒", "🚐", "🛻", "🚚", "🦽", "🦼", "🛴", "🚲", "🛵", "🏍"]
+    @State var emojis: [String] = []
+    var vehicles =  ["✈️",  "🚃", "🚅", "🚁", "🚕", "🚗", "🚙", "🚌", "🚎", "🏎", "🚢", "🚓", "🚑", "🚒", "🚐", "🛻", "🚚", "🦽", "🦼", "🛴", "🚲", "🛵", "🏍"]
+    var fruits = ["🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🥥", "🥝", "🍅", "🍆", "🥑"]
+    var animals = ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐻‍❄️", "🐨", "🐯", "🦁", "🐮", "🐷", "🐽", "🐸", "🐵", "🙈", "🙉", "🙊", "🐒", "🐔", "🐧", "🐦"]
+    
+    @State var emojiCount = 12
     
     var body: some View {
         VStack {
+            Text( "Memorize!").font(.largeTitle)
+            Spacer()
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 75))]) {
-                    ForEach(emojis[0..<emojiCount], id: \.self, content: { emoji in
+                    ForEach(emojis[0..<emojis.count], id: \.self, content: { emoji in
                         CardView(content: emoji)
                             .aspectRatio(2/3, contentMode: .fit)
                     })
@@ -23,35 +30,50 @@ struct ContentView: View {
             }
             .foregroundColor(Color.red)
             Spacer()
+            // Refactor?
             HStack {
-                addButton
+                animalsButton
                 Spacer()
-                removeButton
+                vehicleButton
+                Spacer()
+                fruitButton
             }
             .font(.largeTitle)
+            .padding(.horizontal)
+            HStack {
+                Text("Animals")
+                Spacer()
+                Text("Vehicles")
+                Spacer()
+                Text("Fruits")
+            }
             .padding(.horizontal)
         }
         .padding(.horizontal)
        
     }
     
-    var removeButton: some View {
+    var fruitButton: some View {
         Button(action: {
-            if emojiCount > 1 {
-                emojiCount -= 1
-            }
+            emojis = fruits.shuffled()
         }  , label: {
-            Image(systemName: "minus.circle")
+            Image(systemName: "applelogo")
         })
     }
     
-    var addButton: some View {
+    var animalsButton: some View {
         Button(action: {
-            if emojiCount < emojis.count {
-                    emojiCount += 1
-            }
+            emojis = animals.shuffled()
         }  , label: {
-            Image(systemName: "plus.circle")
+            Image(systemName: "hare")
+        })
+    }
+    
+    var vehicleButton: some View {
+        Button(action: {
+            emojis = vehicles.shuffled()
+        }  , label: {
+            Image(systemName: "car")
         })
     }
 }
